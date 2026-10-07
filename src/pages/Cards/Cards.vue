@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { ref } from 'vue';
+    import { computed, ref } from 'vue';
     import { useRoute, useRouter } from 'vue-router';
 
     import { ICard, useCardStore } from '@/stores/cards';
@@ -24,7 +24,7 @@
 
     const sectionId = route.params['id'] as string;
     const sectionName = sectionStore.getSection(sectionId)?.name ?? '';
-    const sectionCards = cardStore.getSectionCards(sectionId);
+    const sectionCards = computed(() => cardStore.getSectionCards(sectionId));
 
     const { isOpen: isOpenModal, open, close, toggle } = useModalController();
     const typeModal = ref<'create' | 'update'>('create');
