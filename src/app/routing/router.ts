@@ -4,7 +4,12 @@ import Plan from '@pages/Plan/Plan.vue';
 import Repetition from '@pages/Repetition/Repetition.vue';
 import Sections from '@pages/Sections/Sections.vue';
 
-import { createRouter, createWebHistory } from 'vue-router';
+import {
+    createRouter,
+    createWebHistory,
+    type NavigationGuardNext,
+    type RouteLocationNormalized,
+} from 'vue-router';
 
 import { useAuthStore } from '@/stores/auth';
 import { useSectionStore } from '@/stores/sections';
@@ -19,7 +24,11 @@ const routes = [
         path: '/login',
         component: Auth,
         meta: { requiresAuth: false, isPublic: true },
-        beforeEnter: async (to, from, next) => {
+        beforeEnter: async (
+            _to: RouteLocationNormalized,
+            _from: RouteLocationNormalized,
+            next: NavigationGuardNext
+        ) => {
             const authStore = useAuthStore();
 
             if (authStore.isAuth) {
@@ -35,11 +44,15 @@ const routes = [
         path: '/sections/:id/cards',
         component: Cards,
         meta: { requiresAuth: true },
-        beforeEnter: async (to, from, next) => {
+        beforeEnter: async (
+            to: RouteLocationNormalized,
+            _from: RouteLocationNormalized,
+            next: NavigationGuardNext
+        ) => {
             const sectionId = to.params.id;
             const store = useSectionStore();
 
-            if (!store.hasSection(sectionId)) {
+            if (typeof sectionId !== 'string' || !store.hasSection(sectionId)) {
                 next({
                     path: '/',
                     query: { error: 'section_not_found' },
@@ -66,18 +79,24 @@ const router = createRouter({
     routes,
 });
 
-router.beforeEach(async (to, from, next) => {
-    if (!to.meta.requiresAuth) {
-        return next();
-    }
+router.beforeEach(
+    async (
+        to: RouteLocationNormalized,
+        _from: RouteLocationNormalized,
+        next: NavigationGuardNext
+    ) => {
+        if (!to.meta.requiresAuth) {
+            return next();
+        }
 
-    const authStore = useAuthStore();
+        const authStore = useAuthStore();
 
-    if (authStore.isAuth) {
-        next();
-    } else {
-        next('/login');
+        if (authStore.isAuth) {
+            next();
+        } else {
+            next('/login');
+        }
     }
-});
+);
 
 export default router;

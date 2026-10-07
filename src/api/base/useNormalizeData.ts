@@ -42,7 +42,7 @@ export const useNormalizeData = () => {
             create: rawCard.created_at * 1000,
             forgetCount: rawCard.forget_count,
             repeatInfo: {
-                level: rawCard.repeat_info.level,
+                level: rawCard.repeat_info.level as ICard['repeatInfo']['level'],
                 nextRepeat: rawCard.repeat_info.next_repeat_at,
             },
         };
