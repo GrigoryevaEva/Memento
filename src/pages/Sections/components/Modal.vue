@@ -145,6 +145,7 @@
             .colorTile {
                 display: flex;
                 gap: var(--gap-2);
+                flex-wrap: wrap;
 
                 .color {
                     width: 3rem;

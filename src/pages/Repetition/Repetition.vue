@@ -11,12 +11,16 @@
     import CustomButton from '@/shared/ui/components/CustomButton.vue';
     import CustomText from '@/shared/ui/components/CustomText.vue';
 
+    import { useBreakpoints } from '@/composables';
+
     import ProgressBar from './components/ProgressBar.vue';
     import ReviewCard from './components/ReviewCard.vue';
 
     const sectionStore = useSectionStore();
     const cardStore = useCardStore();
     const router = useRouter();
+
+    const { isMobileAndTablet } = useBreakpoints();
 
     const handleTransferToHome = () => router.push(HOME_PATH);
 
@@ -41,7 +45,12 @@
             type="header"
         />
     </div>
-    <div class="repetition">
+    <div
+        class="repetition"
+        :class="{
+            ['repetitionMobile']: isMobileAndTablet,
+        }"
+    >
         <div
             v-if="curCard"
             class="content"
@@ -68,6 +77,7 @@
                 type="header"
             />
             <CustomText
+                class="emptyText"
                 text="На данный момент нет карточек для повторения"
                 size="lg"
             />
@@ -95,6 +105,10 @@
 
         height: 100%;
 
+        &Mobile {
+            margin-top: 1rem;
+        }
+
         .content {
             display: flex;
             flex-direction: column;
@@ -121,6 +135,10 @@
                 height: 4rem;
 
                 color: var(--bg-purple-300);
+            }
+
+            .emptyText {
+                text-align: center;
             }
         }
     }

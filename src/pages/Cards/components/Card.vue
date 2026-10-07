@@ -116,6 +116,7 @@
         display: flex;
         align-items: center;
         gap: var(--gap-2);
+        flex-wrap: wrap;
 
         .readyBadge {
             background-color: var(--bg-yellow-100);
@@ -150,6 +151,7 @@
     .progressContainer {
         display: flex;
         gap: var(--gap-2);
+        flex-wrap: wrap;
 
         .percentBadge {
             background-color: var(--bg-blue-50);
@@ -163,6 +165,7 @@
     .infoContainer {
         display: flex;
         gap: var(--gap-2);
+        flex-wrap: wrap;
 
         .infoText {
             color: var(--text-purple-630);

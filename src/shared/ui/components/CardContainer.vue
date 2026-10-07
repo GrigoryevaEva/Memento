@@ -1,4 +1,6 @@
 <script setup lang="ts">
+    import { useBreakpoints } from '@/composables';
+
     import CustomButton from './CustomButton.vue';
 
     type Theme = 'main' | 'ready' | 'overdue';
@@ -15,6 +17,8 @@
         whenEdit: undefined,
         whenDelete: undefined,
     });
+
+    const { isMobileAndTablet } = useBreakpoints();
 </script>
 
 <template>
@@ -31,6 +35,9 @@
         <div
             v-if="hover"
             class="buttonsContainer"
+            :class="{
+                ['buttonsContainerMobile']: isMobileAndTablet,
+            }"
         >
             <CustomButton
                 theme="blue"
@@ -50,6 +57,8 @@
 
 <style scoped lang="scss">
     .customButton {
+        // width: fit-content;
+        // max-width: 100%;
         flex: 1;
         min-width: fit-content;
         background-color: var(--bg-white);
@@ -68,6 +77,11 @@
 
             opacity: 0;
             transition: opacity 0.2s;
+
+            &Mobile {
+                opacity: 1;
+                flex-direction: column;
+            }
         }
     }
     .ready {
@@ -79,8 +93,12 @@
     }
     .rootHover {
         display: flex;
+        gap: var(--gap-2);
         .content {
             flex: 1;
+            min-width: 0;
+            display: flex;
+            align-items: center;
         }
         &:hover {
             box-shadow: var(--shadow-lg);

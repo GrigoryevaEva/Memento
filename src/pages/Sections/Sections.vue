@@ -8,7 +8,7 @@
     import CustomButton from '@/shared/ui/components/CustomButton.vue';
     import CustomText from '@/shared/ui/components/CustomText.vue';
 
-    import { useModalController } from '@/composables';
+    import { useBreakpoints, useModalController } from '@/composables';
 
     import Modal from './components/Modal.vue';
     import Section from './components/Section.vue';
@@ -18,6 +18,7 @@
     const sectionStore = useSectionStore();
 
     const { isOpen: isOpenModal, open, close, toggle } = useModalController();
+    const { isMobileAndTablet } = useBreakpoints();
 
     const typeModal = ref<'create' | 'update'>('create');
     const curUpdateSection = ref<ISection | null>(null);
@@ -47,11 +48,12 @@
         <div class="controlContainer">
             <CustomText
                 text="Мои разделы"
-                type="header"
+                :type="isMobileAndTablet ? 'text' : 'header'"
+                size="lg"
             />
             <CustomButton
                 icon="plus"
-                text="Новый раздел"
+                :text="isMobileAndTablet ? '' : 'Новый раздел'"
                 :when-click="handleToggleCreateModal"
             />
         </div>
@@ -72,6 +74,7 @@
             class="icon"
         />
         <CustomText
+            class="emptyText"
             text="Создайте первый раздел для ваших карточек"
             size="lg"
         />
@@ -131,6 +134,10 @@
             height: 4rem;
 
             color: var(--bg-purple-300);
+        }
+
+        .emptyText {
+            text-align: center;
         }
 
         .createButton {

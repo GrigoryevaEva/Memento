@@ -100,10 +100,11 @@
                 required
             />
         </form>
-        <div v-if="!isTypeUpdate">
+        <!-- TODO -->
+        <!-- <div v-if="!isTypeUpdate">
             <div></div>
             <p>Карточка уже проходила повторения</p>
-        </div>
+        </div> -->
         <div class="buttonsContainer">
             <CustomButton
                 class="button"

@@ -58,7 +58,7 @@
         </div>
     </header>
 
-    <main>
+    <main :class="{ mainMobile: isMobileAndTablet }">
         <RouterView />
     </main>
 
@@ -84,6 +84,30 @@
         padding: 0 2rem;
 
         z-index: 100;
+
+        .user {
+            display: flex;
+            align-items: center;
+            gap: var(--gap-3);
+
+            min-width: 0;
+
+            color: var(--text-purple-700);
+
+            &Name {
+                color: var(--text-purple-700);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+    .headerMobile {
+        padding: 0 1rem;
+
+        .user {
+            gap: 0;
+        }
     }
     main {
         display: flex;
@@ -102,6 +126,12 @@
 
         padding: 6.5rem 2.5rem;
     }
+    .mainMobile {
+        width: 100dvw;
+        height: 100dvh;
+
+        padding: 5.5rem 2.5rem;
+    }
     footer {
         position: fixed;
         right: 0;
@@ -118,24 +148,5 @@
     header,
     footer {
         background-color: var(--bg-white);
-    }
-    .headerMobile {
-        padding: 0 1rem;
-    }
-    .user {
-        display: flex;
-        align-items: center;
-        gap: var(--gap-3);
-
-        min-width: 0;
-
-        color: var(--text-purple-700);
-
-        &Name {
-            color: var(--text-purple-700);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
     }
 </style>

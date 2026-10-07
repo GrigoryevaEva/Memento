@@ -51,6 +51,7 @@
             </div>
             <div class="sectionInfo">
                 <CustomText
+                    class="name"
                     :text="section.name"
                     size="xl"
                 />
@@ -78,12 +79,21 @@
         display: flex;
         gap: var(--gap-4);
 
+        min-width: 0;
+
         &Info {
             display: flex;
             flex-direction: column;
             gap: var(--gap-2);
 
             flex: 1;
+            min-width: 0;
+
+            .name {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
 
             .count {
                 color: var(--text-purple-650);

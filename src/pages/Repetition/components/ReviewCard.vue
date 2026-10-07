@@ -7,12 +7,16 @@
     import CustomButton from '@/shared/ui/components/CustomButton.vue';
     import CustomText from '@/shared/ui/components/CustomText.vue';
 
+    import { useBreakpoints } from '@/composables';
+
     interface Props {
         card: ICard;
     }
     const props = withDefaults(defineProps<Props>(), {});
 
     const cardStore = useCardStore();
+
+    const { isMobileAndTablet } = useBreakpoints();
 
     const isTextVisible = ref(false);
     const handleCheckText = () => (isTextVisible.value = true);
@@ -25,6 +29,9 @@
     <div
         v-if="!isTextVisible"
         class="reviewCard"
+        :class="{
+            ['reviewCardMobile']: isMobileAndTablet,
+        }"
     >
         <CustomText
             class="name"
@@ -62,6 +69,9 @@
     <div
         v-else
         class="reviewCardTextVisible"
+        :class="{
+            ['reviewCardTextVisibleMobile']: isMobileAndTablet,
+        }"
     >
         <CustomText
             class="name"
@@ -71,6 +81,7 @@
         <div class="contentContainer">
             <div class="textContainer">
                 <CustomText
+                    class="text"
                     :text="card.text"
                     size="lg"
                 />
@@ -85,14 +96,14 @@
                     theme="red"
                     :shadow="false"
                     icon="xCircle"
-                    text="Нужно повторить"
+                    :text="isMobileAndTablet ? '' : 'Нужно повторить'"
                     size="200"
                     :when-click="handleReturnCard"
                 />
                 <CustomButton
                     class="button completeButton"
                     icon="checkCircle"
-                    text="Помню отлично"
+                    :text="isMobileAndTablet ? '' : 'Помню отлично'"
                     size="200"
                     :when-click="handleCompete"
                 />
@@ -152,9 +163,27 @@
         .hint {
             color: var(--text-purple-630);
         }
+
+        .hint {
+            text-align: center;
+        }
+
+        &Mobile {
+            width: 90dvw;
+
+            padding: var(--padding-5) var(--padding-4);
+
+            .name {
+                font-size: var(--text-3xl);
+            }
+        }
     }
     .reviewCard {
         gap: var(--gap-8);
+
+        &Mobile {
+            gap: var(--gap-6);
+        }
 
         .icon {
             width: 2.5rem;
@@ -181,7 +210,9 @@
     .reviewCardTextVisible {
         gap: var(--gap-7);
 
-        max-height: 70vh;
+        &Mobile {
+            gap: var(--gap-4);
+        }
 
         .contentContainer {
             display: flex;
@@ -192,7 +223,7 @@
             width: 100%;
 
             .textContainer {
-                max-height: 20rem;
+                max-height: 17rem;
                 overflow: hidden;
                 overflow-y: auto;
 
@@ -213,6 +244,11 @@
                     background: linear-gradient(-30deg, var(--bg-purple-400), var(--bg-pink-500));
                     border-radius: 10px;
                 }
+
+                .text {
+                    white-space: pre-wrap;
+                    overflow-wrap: break-word;
+                }
             }
 
             .buttonContainer {
@@ -231,6 +267,14 @@
                     .text {
                         color: var(--text-red-600);
                     }
+                }
+            }
+        }
+
+        &Mobile {
+            .contentContainer {
+                .textContainer {
+                    max-height: 10rem;
                 }
             }
         }

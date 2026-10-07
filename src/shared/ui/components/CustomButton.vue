@@ -80,6 +80,10 @@
                 width: 2rem;
             }
         }
+
+        .text {
+            white-space: nowrap;
+        }
     }
 
     .shadow {

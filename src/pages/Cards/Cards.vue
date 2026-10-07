@@ -9,7 +9,7 @@
     import CustomButton from '@/shared/ui/components/CustomButton.vue';
     import CustomText from '@/shared/ui/components/CustomText.vue';
 
-    import { useModalController } from '@/composables';
+    import { useBreakpoints, useModalController } from '@/composables';
 
     import Card from './components/Card.vue';
     import Modal from './components/Modal.vue';
@@ -19,6 +19,8 @@
 
     const sectionStore = useSectionStore();
     const cardStore = useCardStore();
+
+    const { isMobileAndTablet } = useBreakpoints();
 
     const sectionId = route.params['id'] as string;
     const sectionName = sectionStore.getSection(sectionId)?.name ?? '';
@@ -67,6 +69,7 @@
                     />
                 </div>
                 <CustomText
+                    class="name"
                     :text="sectionName"
                     type="header"
                 />
@@ -74,7 +77,7 @@
         </div>
         <CustomButton
             icon="plus"
-            text="Новая карточка"
+            :text="isMobileAndTablet ? '' : 'Новая карточка'"
             :when-click="handleToggleCreateModal"
         />
     </div>
@@ -130,19 +133,25 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: var(--gap-4);
 
         padding: 0 2.5rem;
 
         &Left {
             display: flex;
             align-items: center;
-            gap: var(--gap-6);
+            gap: var(--gap-3);
+
+            min-width: 0;
         }
 
         .sectionInfo {
             display: flex;
             align-items: center;
             gap: var(--gap-2);
+
+            min-width: 0;
+            max-width: 100%;
 
             .sectionIconContainer {
                 padding: var(--padding-3);
@@ -157,6 +166,12 @@
 
                     color: var(--text-purple-700);
                 }
+            }
+
+            .name {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
     }

@@ -42,6 +42,7 @@
             class="icon"
         />
         <CustomText
+            class="emptyText"
             text="Нет запланированных повторений"
             size="lg"
         />
@@ -86,6 +87,10 @@
             height: 4rem;
 
             color: var(--bg-purple-300);
+        }
+
+        .emptyText {
+            text-align: center;
         }
     }
 

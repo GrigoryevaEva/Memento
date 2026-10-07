@@ -156,6 +156,7 @@
                 align-items: end;
                 gap: var(--gap-2);
                 flex: 1;
+                flex-wrap: wrap;
 
                 .dateInfo {
                     color: var(--text-purple-650);
