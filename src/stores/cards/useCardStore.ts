@@ -49,7 +49,9 @@ export const useCardStore = defineStore('cards', () => {
     };
 
     const getSectionCards = (sectionId: string): ICard[] => {
-        const sectionCards = cards.value.filter((card) => card.sectionId === sectionId);
+        const sectionCards = cards.value
+            .filter((card) => card.sectionId === sectionId)
+            .sort((a, b) => b.create - a.create);
         Logger.info(`Get section (${sectionId}) cards`);
         return sectionCards;
     };
