@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { computed } from 'vue';
+    import { computed, ref } from 'vue';
     import { useRouter } from 'vue-router';
 
     import { HOME_PATH } from '@/app/routing/constants.ts';
@@ -26,14 +26,26 @@
 
     const cards = computed(() => cardStore.getRepetitionCards());
 
-    const curCard = computed(() => cards.value[0] ?? null);
+    const curIndexCard = ref(0);
+    const curCard = computed(() => cards.value[curIndexCard.value] ?? null);
     const curSectionName = computed(
         () => sectionStore.getSection(curCard.value?.sectionId ?? '')?.name ?? ''
     );
+
+    const handleNextCard = () => {
+        if (curIndexCard.value + 1 > cards.value.length - 1) {
+            curIndexCard.value = 0;
+        } else {
+            curIndexCard.value = curIndexCard.value + 1;
+        }
+    };
 </script>
 
 <template>
-    <div class="repetitionHeader">
+    <div
+        v-if="!isMobileAndTablet"
+        class="repetitionHeader"
+    >
         <CustomButton
             theme="transparent"
             :shadow="false"
@@ -62,7 +74,10 @@
                 />
                 <ProgressBar :count-cards="cards.length" />
             </div>
-            <ReviewCard :card="curCard" />
+            <ReviewCard
+                :card="curCard"
+                :when-next-card="handleNextCard"
+            />
         </div>
         <div
             v-else
@@ -104,10 +119,6 @@
         justify-content: center;
 
         height: 100%;
-
-        &Mobile {
-            margin-top: 1rem;
-        }
 
         .content {
             display: flex;

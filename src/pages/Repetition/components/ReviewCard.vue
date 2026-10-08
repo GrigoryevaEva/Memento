@@ -11,6 +11,7 @@
 
     interface Props {
         card: ICard;
+        whenNextCard: () => void;
     }
     const props = withDefaults(defineProps<Props>(), {});
 
@@ -20,9 +21,17 @@
 
     const isTextVisible = ref(false);
     const handleCheckText = () => (isTextVisible.value = true);
+    const handleHideText = () => (isTextVisible.value = false);
 
-    const handleCompete = () => cardStore.rememberCard(props.card);
-    const handleReturnCard = () => cardStore.forgetCard(props.card);
+    const handleCompete = () => {
+        cardStore.rememberCard(props.card);
+        handleHideText();
+    };
+    const handleReturnCard = () => {
+        cardStore.forgetCard(props.card);
+        handleHideText();
+        props.whenNextCard();
+    };
 </script>
 
 <template>
@@ -33,11 +42,13 @@
             ['reviewCardMobile']: isMobileAndTablet,
         }"
     >
-        <CustomText
-            class="name"
-            :text="card.name"
-            type="header"
-        />
+        <div class="nameContainer">
+            <CustomText
+                class="name"
+                :text="card.name"
+                type="header"
+            />
+        </div>
         <IconSprite
             class="icon"
             name="brain"
@@ -73,11 +84,13 @@
             ['reviewCardTextVisibleMobile']: isMobileAndTablet,
         }"
     >
-        <CustomText
-            class="name"
-            :text="card.name"
-            type="header"
-        />
+        <div class="nameContainer">
+            <CustomText
+                class="name"
+                :text="card.name"
+                type="header"
+            />
+        </div>
         <div class="contentContainer">
             <div class="textContainer">
                 <CustomText
@@ -128,8 +141,33 @@
 
         box-shadow: var(--shadow-lg);
 
-        .name {
-            font-size: var(--text-3xl);
+        .nameContainer {
+            max-height: 6rem;
+            overflow: hidden;
+            overflow-y: auto;
+
+            line-height: var(--line-height-normal);
+
+            width: 75%;
+
+            &::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: transparent;
+                border-radius: 10px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: linear-gradient(-30deg, var(--bg-purple-400), var(--bg-pink-500));
+                border-radius: 10px;
+            }
+
+            .name {
+                font-size: var(--text-3xl);
+                text-align: center;
+            }
         }
 
         .completeButton {
