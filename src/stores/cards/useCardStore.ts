@@ -61,9 +61,9 @@ export const useCardStore = defineStore('cards', () => {
     };
 
     const getNotNewCards = () => {
-        return cards.value.filter((card) => {
-            return card.repeatInfo.level !== FIRST_LEVEL;
-        });
+        return cards.value
+            .filter((card) => card.repeatInfo.level !== FIRST_LEVEL)
+            .sort((a, b) => a.repeatInfo.nextRepeat - b.repeatInfo.nextRepeat);
     };
 
     const getRepetitionCards = (): ICard[] => {

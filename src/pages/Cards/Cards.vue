@@ -159,8 +159,6 @@
                 width: fit-content;
                 border-radius: var(--radius-2xl);
 
-                background-color: var(--bg-green-200);
-
                 .sectionIcon {
                     width: 1.75rem;
                     height: 1.75rem;
@@ -209,5 +207,12 @@
     .margin,
     .modal {
         margin-top: 5rem;
+    }
+
+    $colors: purple, pink, blue, green, yellow, orange;
+    @each $color in $colors {
+        .#{$color}BcgColor {
+            background-color: var(--bg-#{$color}-200);
+        }
     }
 </style>
