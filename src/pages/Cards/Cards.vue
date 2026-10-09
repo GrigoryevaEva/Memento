@@ -5,6 +5,7 @@
     import { ICard, useCardStore } from '@/stores/cards';
     import { useSectionStore } from '@/stores/sections';
 
+    import { sectionColors } from '@/shared/constants/ui.ts';
     import IconSprite from '@/shared/ui/assets/icons/IconSprite.vue';
     import CustomButton from '@/shared/ui/components/CustomButton.vue';
     import CustomText from '@/shared/ui/components/CustomText.vue';
@@ -23,7 +24,7 @@
     const { isMobileAndTablet } = useBreakpoints();
 
     const sectionId = route.params['id'] as string;
-    const sectionName = sectionStore.getSection(sectionId)?.name ?? '';
+    const section = sectionStore.getSection(sectionId);
     const sectionCards = computed(() => cardStore.getSectionCards(sectionId));
 
     const { isOpen: isOpenModal, open, close, toggle } = useModalController();
@@ -61,7 +62,7 @@
             <div class="sectionInfo">
                 <div
                     class="sectionIconContainer"
-                    :class="`greenBcgColor`"
+                    :class="`${section?.color ?? sectionColors[0]}BcgColor`"
                 >
                     <IconSprite
                         name="folderOpen"
@@ -70,7 +71,7 @@
                 </div>
                 <CustomText
                     class="name"
-                    :text="sectionName"
+                    :text="section?.name ?? ''"
                     type="header"
                 />
             </div>

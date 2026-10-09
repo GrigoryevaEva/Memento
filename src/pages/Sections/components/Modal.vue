@@ -20,17 +20,17 @@
     const sectionForm = useTemplateRef('sectionForm');
     const formData = ref({
         name: props.section?.name || '',
-        color: props.section?.color || 'purple',
+        color: props.section?.color || sectionColors[0],
     });
     watch(
         () => props.type,
         (newValue) => {
             if (newValue === 'create') {
                 formData.value.name = '';
-                formData.value.color = 'purple';
+                formData.value.color = sectionColors[0];
             } else {
                 formData.value.name = props.section?.name || '';
-                formData.value.color = props.section?.color || 'purple';
+                formData.value.color = props.section?.color || sectionColors[0];
             }
         }
     );
@@ -39,7 +39,7 @@
 
     const handleClose = () => {
         formData.value.name = '';
-        formData.value.color = 'purple';
+        formData.value.color = sectionColors[0];
         props.whenClose();
     };
 
