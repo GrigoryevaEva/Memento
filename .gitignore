@@ -26,3 +26,6 @@ dist-ssr
 .env
 
 .eslintcache
+
+AGENTS.md
+docs/*
